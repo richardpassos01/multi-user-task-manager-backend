@@ -1,6 +1,7 @@
 const knex = require("knex");
 
 const Config = require("../../config");
+const knexConfig = require("../../../knexfile.js");
 
 class Database {
   constructor(knexInstance) {
@@ -9,17 +10,7 @@ class Database {
 
   static getInstance() {
     if (!Database.instance) {
-      const knexConfig = {
-        client: Config.database.client,
-        connection: Config.database.connection,
-        migrations: {
-          directory: `${__dirname}/migrations`,
-        },
-        seeds: {
-          directory: `${__dirname}/seeds`,
-        },
-      };
-      Database.instance = new Database(knex(knexConfig));
+      Database.instance = new Database(knex(knexConfig[Config.database.environment]));
       Database.instance.checkConnection();
     }
 
@@ -28,7 +19,7 @@ class Database {
 
   async checkConnection() {
     return this.knexInstance.select(1).then(() => {
-      console.log('database connected!');
+      console.log("database connected!");
     });
   }
 
