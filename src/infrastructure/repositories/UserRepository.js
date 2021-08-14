@@ -9,6 +9,13 @@ class userRepository {
       .insert(user)
       .into(Config.database.tables.users);
   }
+
+  async findByEmail(email) {
+    return this.database.connection()
+      .select('name', 'salt', 'hash', 'id')
+      .where('email', email)
+      .into(Config.database.tables.users);
+  }
 }
 
 module.exports = userRepository;
