@@ -42,5 +42,5 @@ module.exports = {
   userRepository,
   projectRepository,
   taskRepository,
-  authenticateUser
+  authenticateUser,
 };

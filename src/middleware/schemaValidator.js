@@ -1,7 +1,7 @@
-const { createValidator } = require('express-joi-validation');
+const { createValidator } = require("express-joi-validation");
 
 const schemaValidator = createValidator({
   passError: true,
 });
 
-module.exports=schemaValidator;
+module.exports = schemaValidator;

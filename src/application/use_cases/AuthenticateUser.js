@@ -12,7 +12,7 @@ class AuthenticateUser {
     if (!data.length) {
       throw new Error("User not found");
     }
-    
+
     const [{ name, id, salt, hash }] = data;
 
     const user = new User(name, email, id, salt, hash);

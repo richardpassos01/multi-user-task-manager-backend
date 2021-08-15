@@ -1,4 +1,4 @@
-const User = require('../../domain/user/User');
+const User = require("../../domain/user/User");
 class CreateUser {
   constructor(userRepository) {
     this.userRepository = userRepository;
@@ -7,7 +7,7 @@ class CreateUser {
   async execute(name, email, password) {
     const user = new User(name, email);
     user.setPassword(password);
-    
+
     return this.userRepository.create(user);
   }
 }

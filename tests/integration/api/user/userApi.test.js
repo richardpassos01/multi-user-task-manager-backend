@@ -14,6 +14,7 @@ describe("userAPI", () => {
 
   afterAll(async () => {
     await database.connection().migrate.rollback();
+    await database.connection().destroy();
     server.close();
   });
 
