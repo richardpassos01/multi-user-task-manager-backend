@@ -14,7 +14,7 @@ const default_config = {
 
 const testConnection = {
   ...Config.database.connection,
-  database: `${Config.database.connection.database}_test`,
+  database: `${Config.database.connection.database}-test`,
 };
 
 module.exports = {

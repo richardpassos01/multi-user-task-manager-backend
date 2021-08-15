@@ -19,7 +19,7 @@ class UserController {
 
     return this.authenticateUser
       .execute(email, password)
-      .then((token) => res.status(StatusCodes.CREATED).send(token))
+      .then((token) => res.status(StatusCodes.OK).send(token))
       .catch(next);
   }
 }

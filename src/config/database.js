@@ -10,7 +10,9 @@ const database = Object.freeze({
   },
   environment:  env.get('NODE_ENV').default('development').asString(),
   tables: {
-    users: 'users'
+    users: 'users',
+    projects: 'projects',
+    tasks: 'tasks'
   }
 });
 

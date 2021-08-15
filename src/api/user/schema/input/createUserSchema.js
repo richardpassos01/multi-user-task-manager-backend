@@ -6,6 +6,12 @@ const createUserSchema = Joi.object({
   password: Joi.string().required(),
 });
 
+const authenticateUserSchema = Joi.object({
+  email: Joi.string().email({ tlds: { allow: false } }).required(),
+  password: Joi.string().required(),
+});
+
 module.exports={
-  createUserSchema
+  createUserSchema,
+  authenticateUserSchema
 };

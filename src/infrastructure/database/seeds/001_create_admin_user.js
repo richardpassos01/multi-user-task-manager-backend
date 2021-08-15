@@ -8,9 +8,9 @@ exports.seed = function (knex) {
         {
           id: "c1daef5f-4bd0-4616-bb62-794e9b5d8ca2",
           name: "admin",
-          email: "admin@admin",
-          salt: "307bd80ffe7a1ed46c587bfdbf59512e",
-          hash: "37c29bbaca2c321beb183dbc068a1fc0053deeed2a7ed4900224096b7858162f660ded08d38009917d9640cfd420d5aea8b7",
+          email: "admin@email.com",
+          salt: "5fa64dffbbbc4334c8b9e6e51923b050",
+          hash: "cf5874e22a1d12b0c2717eb05817f3f7f4014402ed9a97c553691196e2033779ef045e8da108ac923fa6646c6e2e405c18287aec555fa68df79351733370e05b",
         },
       ]);
     });

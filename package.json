@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config src/api/server.js",
     "nodemon": "nodemon -r dotenv/config -L src/api/server.js",
-    "test": "cross-env NODE_ENV=test jest --setupFiles dotenv/config  --forceExit",
+    "test": "cross-env NODE_ENV=test jest --setupFiles dotenv/config  --forceExit --detectOpenHandles",
     "knex": "node -r dotenv/config ./node_modules/knex/bin/cli.js",
     "migration:create": "npm run knex migrate:make",
     "migration:up": "npm run knex migrate:latest",
