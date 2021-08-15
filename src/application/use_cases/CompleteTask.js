@@ -1,11 +1,11 @@
-class RemoveTask {
+class CompleteTask {
   constructor(taskRepository) {
     this.taskRepository = taskRepository;
   }
 
   async execute(taskId, projectId) {
-    await this.taskRepository.remove(taskId, projectId);
+    await this.taskRepository.complete(taskId, projectId);
   }
 }
 
-module.exports = RemoveTask;
+module.exports = CompleteTask;

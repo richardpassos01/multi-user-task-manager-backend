@@ -1,11 +1,14 @@
 const supertest = require("supertest");
+const { StatusCodes } = require("http-status-codes");
 const { database } = require("../../../../src/DependencyInjectionContainer");
 const app = require("../../../../src/api/app");
 const server = require("../../../../src/api/server");
-const UserFactory = require('../../../factories/UserFactory');
+const UserFactory = require("../../../factories/UserFactory");
 
 const request = supertest(app);
-const { StatusCodes } = require("http-status-codes");
+const {
+  database: { tables },
+} = require("../../../../src/config");
 
 describe("userAPI", () => {
   beforeAll(async () => {
@@ -24,13 +27,19 @@ describe("userAPI", () => {
         request
           .post("/task-manager/user")
           .send({
-            name: "richard",
-            email: "richard@email.com",
+            name: "user",
+            email: "user@email.com",
             password: "myPass",
           })
           .expect(StatusCodes.CREATED)
           .end(async (err) => {
-            expect(err).toBeFalsy();
+            const [data] = await database
+              .connection()
+              .select("id")
+              .where("email", "user@email.com")
+              .into(tables.users);
+
+            expect(!!data.id).toBeTruthy();
           });
       });
     });
@@ -61,19 +70,33 @@ describe("userAPI", () => {
           })
           .expect(StatusCodes.OK)
           .end(async (err, res) => {
-            const { access_token: accessToken } = res.body; 
+            const { access_token: accessToken } = res.body;
             expect(!!accessToken).toBeTruthy();
           });
       });
     });
 
-    describe("When called the endpoint with invalid email or password", () => {
+    describe("When called the endpoint with invalid password", () => {
+      test("then throw bad request error", async () => {
+        const user = await new UserFactory().getAndSave();
+
+        request
+          .post("/task-manager/user")
+          .send({
+            email: user.email,
+            password: "wrong_password",
+          })
+          .expect(StatusCodes.BAD_REQUEST);
+      });
+    });
+
+    describe("When called the endpoint with not found user", () => {
       test("then throw bad request error", async () => {
         request
           .post("/task-manager/user")
           .send({
             email: "random@email",
-            password: "wrong_password"
+            password: "random_password",
           })
           .expect(StatusCodes.BAD_REQUEST);
       });

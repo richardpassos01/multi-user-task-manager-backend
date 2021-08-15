@@ -12,7 +12,7 @@ exports.up = function (knex) {
             .references(`${tables.projects}.id`)
             .onDelete("CASCADE")
             .notNullable();
-          table.timestamp("finished_at");
+          table.timestamp("completed_at");
 
           table.timestamps(true, true);
         })

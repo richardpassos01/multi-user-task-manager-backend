@@ -1,12 +1,14 @@
 const supertest = require("supertest");
+const { StatusCodes } = require("http-status-codes");
 const { database } = require("../../../../src/DependencyInjectionContainer");
 const app = require("../../../../src/api/app");
 const server = require("../../../../src/api/server");
 const UserFactory = require("../../../factories/UserFactory");
 const ProjectFactory = require("../../../factories/ProjectFactory");
-
+const {
+  database: { tables },
+} = require("../../../../src/config");
 const request = supertest(app);
-const { StatusCodes } = require("http-status-codes");
 
 let authentication;
 let user;
@@ -50,10 +52,7 @@ describe("projectAPI", () => {
           .send({
             name: "project",
           })
-          .expect(StatusCodes.CREATED)
-          .end(async (err) => {
-            expect(err).toBeFalsy();
-          });
+          .expect(StatusCodes.CREATED);
       });
 
       describe("When called the endpoint without payload", () => {
@@ -72,6 +71,7 @@ describe("projectAPI", () => {
       test("then update the project", async () => {
         const userId = user.get().id;
         const project = await new ProjectFactory("project", userId).getAndSave();
+
         request
           .put(`/task-manager/project/${project.id}`)
           .set("Authorization", "bearer " + authentication.access_token)
@@ -80,7 +80,13 @@ describe("projectAPI", () => {
           })
           .expect(StatusCodes.NO_CONTENT)
           .end(async (err) => {
-            expect(err).toBeFalsy();
+            const [data] = await database
+              .connection()
+              .select("name")
+              .where("id", project.id)
+              .into(tables.projects);
+
+            expect(data.name).toEqual("project");
           });
       });
     });
@@ -103,13 +109,11 @@ describe("projectAPI", () => {
       test("then delete the project", async () => {
         const userId = user.get().id;
         const project = await new ProjectFactory("project", userId).getAndSave();
+
         request
           .delete(`/task-manager/project/${project.id}`)
           .set("Authorization", "bearer " + authentication.access_token)
-          .expect(StatusCodes.NO_CONTENT)
-          .end(async (err) => {
-            expect(err).toBeFalsy();
-          });
+          .expect(StatusCodes.NO_CONTENT);
       });
     });
   });

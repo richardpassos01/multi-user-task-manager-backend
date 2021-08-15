@@ -1,14 +1,17 @@
-class CreateProject {
-  constructor(userRepository) {
-    this.userRepository = userRepository;
+const Task = require("../../domain/task/Task");
+
+class CreateTask {
+  constructor(taskRepository) {
+    this.taskRepository = taskRepository;
   }
 
-  async execute(name, email, password) {
-    const user = new User(name, email);
-    user.setPassword(password);
+  async execute(description, projectId) {
+    const task = new Task(description, projectId);
 
-    return this.userRepository.create(user);
+    await this.taskRepository.create(task);
+
+    return task;
   }
 }
 
-module.exports = CreateProject;
+module.exports = CreateTask;

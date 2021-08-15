@@ -1,14 +1,11 @@
-class CreateProject {
-  constructor(userRepository) {
-    this.userRepository = userRepository;
+class UpdateTask {
+  constructor(taskRepository) {
+    this.taskRepository = taskRepository;
   }
 
-  async execute(name, email, password) {
-    const user = new User(name, email);
-    user.setPassword(password);
-
-    return this.userRepository.create(user);
+  async execute(taskId, projectId, description) {
+    return this.taskRepository.update(taskId, projectId, description);
   }
 }
 
-module.exports = CreateProject;
+module.exports = UpdateTask;

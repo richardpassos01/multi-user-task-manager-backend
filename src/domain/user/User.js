@@ -1,10 +1,10 @@
 const { v4: uuid } = require("uuid");
 const crypto = require("crypto");
 class User {
-  constructor(name, email, id = null, salt = null, hash = null) {
+  constructor(name, email, id = uuid(), salt = null, hash = null) {
     this.name = name;
     this.email = email;
-    this.id = id ? id : uuid();
+    this.id = id; 
     this.salt = salt;
     this.hash = hash;
   }
