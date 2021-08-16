@@ -46,7 +46,7 @@ class TaskRepository {
         "id",
         "description",
         "project_id as projectId",
-        "completed_at as finishedAt",
+        "completed_at as completedAt",
         "created_at as createdAt"
       )
       .whereIn("project_id", projectIds)
